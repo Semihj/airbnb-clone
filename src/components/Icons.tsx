@@ -1,14 +1,11 @@
-import  { useRef, useState } from "react";
+import  { useRef } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
 import { iconsData } from "../utils/data";
 export default function Icons() {
   const rowRef:any = useRef(null);
-  const [isHidden, setIsHidden] = useState(false)
 
-  if(rowRef?.current?.scrollLeft === 0) {
-    setIsHidden(true)
-  }
+  
   
 
   const scrollRight = () => {

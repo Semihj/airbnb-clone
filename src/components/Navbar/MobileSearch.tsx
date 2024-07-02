@@ -15,7 +15,6 @@ export default function MobileSearch({
   const [showDate, setShowDate] = useState(false);
   const [choosedRegion, setChoosedRegion] = useState("I'm flexible");
   const [showAddGuests, setShowAddGuests] = useState(false);
-  const [days, setDays] = useState(3);
   const [date, setDate] = useState<string>();
   const [calendarData, setCalendarData] = useState<calendarProps>();
 
@@ -162,7 +161,7 @@ export default function MobileSearch({
             When's your trip?
           </h1>
           <DatePicker
-            setDays={setDays}
+            setDays={3}
             setCalendarData={setCalendarData}
             months={1}
             scroll={true}

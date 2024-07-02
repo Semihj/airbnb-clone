@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export const handleClickOutside = (e,className,state) => {
+export const handleClickOutside = (e:any,className:any,state:any) => {
   if(!e.target.closest(className)) {
     state(false)
   }

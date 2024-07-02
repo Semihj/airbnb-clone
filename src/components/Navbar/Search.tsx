@@ -7,12 +7,8 @@ import { calendarProps } from "../../types/types";
 
 
 export default function Search() {
-  const [days, setDays] = useState(3);
   const [calendarData, setCalendarData] = useState<calendarProps >();
-  const [categories, setCategories] = useState({
-    isSearch: true,
-    isExperience: false,
-  });
+ 
   const [startDate, setStartDate] = useState<string | undefined>();
   const [endDate, setEndDate] = useState<string | undefined>();
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -81,7 +77,7 @@ export default function Search() {
           Online Experiences
         </h1>
       </div>
-      {categories.isSearch && (
+      {(
         <div className="w-max  mx-10 relative z-[20000] items-center border justify-between mb-5 shadow-md rounded-full flex gap-5 lg:gap-10">
           <div
             className="flex  h-full px-2 py-5 gap-10 w-max group  transition-colors duration-200 rounded-full hover:bg-gray-200 region  "
@@ -116,7 +112,7 @@ export default function Search() {
           </div>
           {showDatePicker && (
             <NavbarDatePicker
-              setDays={setDays}
+              setDays={3}
               setCalendarData={setCalendarData}
             />
           )}
