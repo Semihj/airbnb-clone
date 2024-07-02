@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
-  const [showMobileSearch, setShowMobileSearch] = useState(true)
+  const [showMobileSearch, setShowMobileSearch] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -132,17 +132,17 @@ export default function Navbar() {
                   } show transition-all duration-200 `}
                 >
                   <div className="mt-[85px] bg-white flex flex-col w-full h-max p-10 text-[22px] font-semibold rounded-md gap-5 ">
-                    <h1>Home</h1>
+                    <Link to={"/"}>Home</Link>
                     <Link to={"/favorites"} className="flex">
-                      Favorites{" "}
+                      Favorites
                       {liked_houses.length > 0 && (
                         <div className="bg-red-600 text-white w-max h-5 px-2 py-3 font-s text-[17px] flex justify-center items-center rounded-full  ">
-                          {liked_houses.length}{" "}
+                          {liked_houses.length}
                         </div>
                       )}{" "}
                     </Link>
-                    <h1>About</h1>
-                    <h1>Sign In</h1>
+                    <h1 className="cursor-not-allowed" >About</h1>
+                    <h1 className="cursor-not-allowed" >Sign In</h1>
                   </div>
                 </div>
                 <GiHamburgerMenu

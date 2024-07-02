@@ -7,6 +7,7 @@ import { calendarProps } from "../../types/types";
 
 
 export default function Search() {
+  const [days, setDays] = useState(3);
   const [calendarData, setCalendarData] = useState<calendarProps >();
  
   const [startDate, setStartDate] = useState<string | undefined>();
@@ -15,6 +16,8 @@ export default function Search() {
   const [showRegions, setShowRegions] = useState(false);
 
   const handleDates = () => {
+    console.log(days);
+    
     try {
       if (calendarData) {
         const calcStartDate = format(calendarData?.startDate || 0 , "dd/MM/yyyy");
@@ -112,7 +115,7 @@ export default function Search() {
           </div>
           {showDatePicker && (
             <NavbarDatePicker
-              setDays={3}
+              setDays={setDays}
               setCalendarData={setCalendarData}
             />
           )}

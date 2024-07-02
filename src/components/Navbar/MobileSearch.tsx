@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import DatePicker from "../DatePicker";
 import { format } from "date-fns";
 import { calendarProps } from "../../types/types";
+import { IoMdSettings } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
 
 export default function MobileSearch({
   setShowMobileSearch,
@@ -15,9 +19,10 @@ export default function MobileSearch({
   const [showDate, setShowDate] = useState(false);
   const [choosedRegion, setChoosedRegion] = useState("I'm flexible");
   const [showAddGuests, setShowAddGuests] = useState(false);
+  const [days, setDays] = useState(3);
   const [date, setDate] = useState<string>();
   const [calendarData, setCalendarData] = useState<calendarProps>();
-
+  const [showSettings, setShowSettings] = useState(false)
   
 
 
@@ -25,6 +30,8 @@ export default function MobileSearch({
  
 
   const handleDate = () => {
+    console.log(days);
+    
     if (calendarData?.startDate) {
       const endMonth = format(calendarData?.endDate || 0, "MMM");
       const startMonth = format(calendarData.startDate, "MMM");
@@ -91,12 +98,25 @@ export default function MobileSearch({
       return () => window.removeEventListener("click", handleClickOutside); // Cleanup function
     }
   }, [showAddGuests]);
+  useEffect(() => {
+    if (showSettings) {
+      const handleClickOutside = (e:any) => {
+        if (!e.target.closest(".show-settings")) {
+          setShowSettings(false);
+        }
+      };
+
+      window.addEventListener("click", handleClickOutside);
+
+      return () => window.removeEventListener("click", handleClickOutside); // Cleanup function
+    }
+  }, [showSettings]);
 
   return (
     <div className="fixed top-0 left-0 h-screen flex flex-col items-center px-5 pt-5  overflow-hidden w-screen bg-white z-[100000] ">
-      <div className="w-full flex h-max  gap-5 items-center px-2">
+      <div className="w-full flex h-max  gap-5 items-center px-2 relative">
         <IoCloseCircleOutline
-          className="text-[35px] "
+          className="text-[30px] "
           onClick={() => setShowMobileSearch(false)}
         />
         <div className="flex gap-5 items-center">
@@ -105,9 +125,19 @@ export default function MobileSearch({
           <h1 className="text-[20px] text-gray-500 hover:text-black transition-all font-semibold ">
             Experiences
           </h1>
+          
+          
         </div>
-      </div>
+       <IoMdSettings className="text-[30px] show-settings " onClick={() => setShowSettings(!showSettings)} />
+        {showSettings && <div className="absolute bottom-0 right-2 bg-white h-0 w-40 cursor-pointer show-settings z-[1000000]  ">
+          <div className="h-max bg-white border mt-3 w-full flex flex-col p-4 gap-4 ">
+          <Link to={"/"} className="flex gap-2 items-center" onClick={() => setShowMobileSearch(false)}><FaHome className="text-[22px] " /> Home</Link>
+          <Link to={"/favorites"} className="flex gap-2 items-center " onClick={() => setShowMobileSearch(false)}  ><FaStar className="text-[22px] "/> Favorites</Link>
+          </div>
 
+          </div> }
+      </div>
+ 
       {showRegions ? (
         <div className="w-full flex flex-col rounded-[30px] bg-white shadow-xl border show-regions mt-5 h-[320px] p-5 gap-5 ">
           <div className="w-full flex justify-between">
@@ -161,7 +191,7 @@ export default function MobileSearch({
             When's your trip?
           </h1>
           <DatePicker
-            setDays={3}
+            setDays={setDays}
             setCalendarData={setCalendarData}
             months={1}
             scroll={true}
