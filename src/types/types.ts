@@ -1,4 +1,4 @@
-export type House = {
+export type HouseProps = {
     id:number,
     hosted_by:string,
     country:string,
@@ -9,4 +9,17 @@ export type House = {
     title:string,
     utilities:Array<string>,
     images:Array<string>
+}
+
+export type calendarProps = {
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+    key: string | undefined;
+  };
+  
+export  type reduxProps = {
+    likes:{
+      liked_houses:[]
+    }
+  
 }

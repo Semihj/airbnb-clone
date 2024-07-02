@@ -1,21 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { useEffect, useRef } from "react";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { useParams } from "react-router-dom";
-import houseImg from "../assets/airbnb1.jpg";
 
 
 
 
-export default function Map({position,houseData}:{position:Array,houseData:object}) {
-  const markerRef1 = useRef(null);
-  const markerRef2 = useRef(null);
+export default function Map({position}:{position:any}) {
+  const markerRef1:any = useRef(null);
+  const markerRef2:any = useRef(null);
   const params = useParams()
   useEffect(() => {
-    if (markerRef1.current) {
-      markerRef1.current.openPopup();
+    if (markerRef1?.current) {
+      markerRef1?.current?.openPopup();
     }
     if (markerRef2.current) {
-      markerRef2.current.openPopup();
+      markerRef2?.current?.openPopup();
     }
   }, [markerRef1, markerRef2,params.id]);
 
@@ -34,16 +33,7 @@ export default function Map({position,houseData}:{position:Array,houseData:objec
  
 
 <Marker position={position} ref={markerRef2} >
-  <Popup open={true}>
-   <div className="md:w-full md:h-full max-h-[240px] max-w-[200px] flex flex-col ">
-    <img src={houseData.images[1]} className="object-cover max-w-full  " alt="" />
-   <div className="flex justify-between items-center  "> 
-    <h1 className="text-[21px] font-semibold " >{houseData.title} </h1>
-    <p className="text-[20px] font-bold items-center flex " >{houseData.price} <span className="text-green-600 font-extrabold">$</span></p>
-   </div>
-   
-   </div>
-  </Popup>
+
 </Marker>
 
       </MapContainer>

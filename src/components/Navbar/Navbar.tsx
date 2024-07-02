@@ -1,4 +1,4 @@
-import airbnbjpg from "../assets/airbnb.jpeg";
+import airbnbjpg from "../../assets/airbnb.jpeg";
 import { IoSearch } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
@@ -6,13 +6,19 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import Search from "./Search";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import MobileSearch from "./MobileSearch";
+import { reduxProps } from "../../types/types";
 export default function Navbar() {
+  const liked_houses = useSelector((state:reduxProps) => state.likes.liked_houses);
+
   const [isOpen, setIsOpen] = useState(false);
-  const body = document.getElementsByClassName("check");
+  const [show, setShow] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(true)
 
   useEffect(() => {
     if (isOpen) {
-      const handleClickOutside = (e) => {
+      const handleClickOutside = (e:any) => {
         if (!e.target.closest(".navbar")) {
           setIsOpen(false);
         }
@@ -24,13 +30,29 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (show) {
+      const handleClickOutside = (e:any) => {
+        if (!e.target.closest(".show")) {
+          setShow(false);
+        }
+        console.log("Closed");
+      };
+
+      window.addEventListener("click", handleClickOutside);
+
+      return () => window.removeEventListener("click", handleClickOutside); // Cleanup function
+    }
+  }, [show]);
+
   return (
     <div
       className={`w-screen h-[80px] ${
         isOpen && "md:h-[250px] navbar "
       } navbar fixed top-0 left-0 z-[10000] bg-white md:h-[100px] flex items-center justify-center md:justify-between p-2 md:py-4 transition-all duration-300 xl:px-20 border-b-2 `}
     >
-      <div className="flex md:hidden justify-center px-2 h-full rounded-full w-full ">
+      {showMobileSearch && <MobileSearch setShowMobileSearch={setShowMobileSearch} />}
+      <div className="flex md:hidden justify-center px-2 h-full rounded-full w-full " onClick={() => setShowMobileSearch(true)} >
         <div className="flex w-full items-center gap-3    border-2 shadow-lg p-1  rounded-full">
           <IoSearch className="text-[25px] font-bold ml-2  " />
           <div className="flex flex-col  justify-center items-start">
@@ -46,17 +68,21 @@ export default function Navbar() {
         </div>
       </div>
       <div
-        className={`w-full  relative hidden md:flex ${isOpen && "flex-wrap"} justify-between items-center gap-5 p-2 `}
+        className={`w-full  relative hidden md:flex ${
+          isOpen && "flex-wrap"
+        } justify-between items-center gap-5 p-2 `}
       >
         {/* Logo */}
         <div className=" h-full w-auto relative flex-wrap ">
-         <Link to={"/"}><img
-            src={airbnbjpg}
-            className={` ${
-              isOpen && "sticky  top-2 left-0 "
-            } h-10 w-40 object-cover rounded-md cursor-pointer md:inline-block`}
-            alt=""
-          /></Link> 
+          <Link to={"/"}>
+            <img
+              src={airbnbjpg}
+              className={` ${
+                isOpen && "sticky  top-2 left-0 "
+              } h-10 w-40 object-cover rounded-md cursor-pointer md:inline-block`}
+              alt=""
+            />
+          </Link>
         </div>
         {/* Search Bar */}
 
@@ -97,9 +123,41 @@ export default function Navbar() {
               <div className="p-2 hover:rounded-full hover:bg-slate-100">
                 <TbWorld className="w-7 h-7 cursor-pointer hover:shadow-xl duration-200 " />
               </div>
-              <div className="border items-center flex rounded-full gap-5 hover:shadow-xl duration-200 p-2">
-                <GiHamburgerMenu className="w-7 h-7 cursor-pointer " />
-                <CgProfile className="w-10 h-10 cursor-pointer " />
+              <div className="border items-center flex rounded-full  gap-5 hover:shadow-xl duration-200 p-2 show">
+                <div
+                  className={`  ${
+                    show
+                      ? "inline-block absolute top-0 right-4 cursor-pointer w-max h-max "
+                      : "hidden w-1 h-1 "
+                  } show transition-all duration-200 `}
+                >
+                  <div className="mt-[85px] bg-white flex flex-col w-full h-max p-10 text-[22px] font-semibold rounded-md gap-5 ">
+                    <h1>Home</h1>
+                    <Link to={"/favorites"} className="flex">
+                      Favorites{" "}
+                      {liked_houses.length > 0 && (
+                        <div className="bg-red-600 text-white w-max h-5 px-2 py-3 font-s text-[17px] flex justify-center items-center rounded-full  ">
+                          {liked_houses.length}{" "}
+                        </div>
+                      )}{" "}
+                    </Link>
+                    <h1>About</h1>
+                    <h1>Sign In</h1>
+                  </div>
+                </div>
+                <GiHamburgerMenu
+                  className="w-7 h-7 cursor-pointer "
+                  onClick={() => setShow(!show)}
+                />
+                <div className="w-10 h-10 cursor-pointer relative">
+                  <CgProfile
+                    className="w-10 h-10 cursor-pointer "
+                    onClick={() => setShow(!show)}
+                  />
+                  {liked_houses.length > 0 && (
+                    <div className="w-2 h-2 bg-red-600 top-0 right-1 rounded-full absolute "></div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

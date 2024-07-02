@@ -1,6 +1,5 @@
-import React from 'react'
 
-export default function ShowImages({images}:{images:Array<string>}) {
+export default function ShowImages({images}:{images:Array<string> | undefined}) {
   return (
     <div className="w-full md:flex md:justify-center md:items-center transition-all duration-1000 ">
     {images && <div className="bg-white w-full grid grid-rows-2 justify-center gap-2  "> {images && images.map((img,index) => {

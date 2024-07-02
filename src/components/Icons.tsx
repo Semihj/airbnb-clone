@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import { LiaSwimmingPoolSolid } from "react-icons/lia";
+import  { useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
+import { iconsData } from "../utils/data";
 export default function Icons() {
-  const rowRef = useRef(null);
+  const rowRef:any = useRef(null);
   const [isHidden, setIsHidden] = useState(false)
 
   if(rowRef?.current?.scrollLeft === 0) {
@@ -33,21 +33,21 @@ export default function Icons() {
     <div className=" w-full   flex fixed h-[100px]  bg-white z-[100] left-0 border-b-2 mt-[75px] md:mt-[100px] "> 
     
       <div
-        className="p-5 flex gap-10 md:gap-20 mx-6 md:mx-20 h-full  w-full overflow-x-scroll md:overflow-hidden items-center relative scroll"
+        className="p-5 flex gap-10 md:gap-20 mx-6 md:mx-20 h-full  w-full overflow-x-scroll md:overflow-hidden  overflow-y-hidden items-center relative scroll"
         ref={rowRef}
       >
-    <button  className={`sticky left-0  hidden md:inline-block cursor-pointer text-[24px] p-2 rounded-full right-arrow bg-white border-2 ${rowRef?.current?.scrollLeft === 0 && "hidden"}  z-10`} onClick={scrollLeft}><FaAngleLeft/></button>
+    <button  className={`sticky left-0  hidden md:inline-block cursor-pointer text-[24px] p-2 rounded-full right-arrow bg-white  border-2 ${rowRef?.current?.scrollLeft === 0 && "hidden"}  z-10`} onClick={scrollLeft}><FaAngleLeft/></button>
       
-        {Array.from({ length: 30 }).map((icon, index) => (
+        {iconsData?.map((icon, index) => (
           <div
-            className="flex flex-col  justify-center opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer "
+            className="flex flex-col  justify-center items-center opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer "
             key={index}
           >
-            <LiaSwimmingPoolSolid className="text-[42px]" />
-            <p>Pools</p>
+            <icon.icon className="text-[42px]  " />
+            <p className="w-max" >{icon.title} </p>
           </div>
         ))}
-       <button className="sticky  right-0 hidden md:inline-block cursor-pointer text-[24px] p-2 rounded-full right-arrow bg-white border-2  z-10" onClick={scrollRight}><FaAngleRight/></button>
+       <button className="sticky  right-0 hidden md:inline-block cursor-pointer text-[24px] p-2 rounded-full right-arrow bg-white border-2  z-10  " onClick={scrollRight}><FaAngleRight/></button>
         
       </div>
     </div>
